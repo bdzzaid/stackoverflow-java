@@ -1,8 +1,6 @@
 package retrofit;
 
 import okhttp3.Headers;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -17,30 +15,12 @@ public final class SimpleService
 {
     public static final String API_URL = "https://api.github.com";
 
-    public static class Contributor
-    {
-        public final String login;
-        public final int contributions;
-
-        public Contributor(String login, int contributions)
-        {
-            this.login = login;
-            this.contributions = contributions;
-        }
-    }
-
-    public interface GitHub
-    {
-        @GET("/repos/{owner}/{repo}/contributors")
-        @retrofit2.http.Headers("Transfer-Encoding: chunked")
-        Call<List<Contributor>> contributors(
-                @Path("owner") String owner,
-                @Path("repo") String repo);
-    }
-
     public static void main(String... args)
     {
-        Retrofit retrofit = buildRetrofit(true);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
         // Create an instance of our GitHub API interface.
         GitHub github = retrofit.create(GitHub.class);
         // Create a call instance for looking up Retrofit contributors.
@@ -59,32 +39,6 @@ public final class SimpleService
         }
     }
 
-    private static Retrofit buildRetrofit(boolean addInterceptor)
-    {
-        if (addInterceptor)
-        {
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-            httpClient.addInterceptor(chain ->
-            {
-                Request original = chain.request();
-                Request request = original.newBuilder()
-                        .header("Transfer-Encoding", "chunked")
-                        .method(original.method(), original.body())
-                        .build();
-                return chain.proceed(request);
-            });
-            return new Retrofit.Builder()
-                    .baseUrl(API_URL)
-                    .client(httpClient.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-        }
-        return new Retrofit.Builder()
-                .baseUrl(API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
     private static void printHeader(String headerName, Headers requestHeader, Headers responseHeader)
     {
         Objects.requireNonNull(headerName, "Missing header name");
@@ -94,5 +48,26 @@ public final class SimpleService
         if (responseHeader != null)
             System.out.println(String.format("Response header %s : %s ", headerName,
                     responseHeader.names().contains(headerName) ? responseHeader.get(headerName) : "is missing"));
+    }
+
+    public interface GitHub
+    {
+        @GET("/repos/{owner}/{repo}/contributors")
+            // @retrofit2.http.Headers("Transfer-Encoding: chunked")
+        Call<List<Contributor>> contributors(
+                @Path("owner") String owner,
+                @Path("repo") String repo);
+    }
+
+    public static class Contributor
+    {
+        public final String login;
+        public final int contributions;
+
+        public Contributor(String login, int contributions)
+        {
+            this.login = login;
+            this.contributions = contributions;
+        }
     }
 }
