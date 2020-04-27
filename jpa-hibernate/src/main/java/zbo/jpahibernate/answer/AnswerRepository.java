@@ -12,9 +12,8 @@ import java.util.List;
 public interface AnswerRepository extends JpaRepository<Answer, Integer>
 {
 
-
     @Query("SELECT a FROM Answer a")
-    @EntityGraph(attributePaths = {"value"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"value"})
     public List<Answer> findAllByGraph();
 
 }

@@ -16,7 +16,7 @@ public class MultichoiceValue extends Value
         this.choice = choice;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "mcValueId")
     private Set<MultichoiceOptionSelected> choice = new HashSet<>();
 
