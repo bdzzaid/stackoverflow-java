@@ -11,30 +11,30 @@ public class MultichoiceValue extends Value
 {
     public MultichoiceValue() {}
 
-    public MultichoiceValue(Set<MultichoiceOptionSelected> choice)
-    {
-        this.choice = choice;
-    }
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "mcValueId")
-    private Set<MultichoiceOptionSelected> choice = new HashSet<>();
+    private Set<MultichoiceOptionSelected> selected = new HashSet<>();
 
-    public Set<MultichoiceOptionSelected> getChoice()
+    public MultichoiceValue(Set<MultichoiceOptionSelected> selected)
     {
-        return choice;
+        this.selected = selected;
     }
 
-    public void setChoice(Set<MultichoiceOptionSelected> choice)
+    public Set<MultichoiceOptionSelected> getSelected()
     {
-        this.choice = choice;
+        return selected;
+    }
+
+    public void setSelected(Set<MultichoiceOptionSelected> selected)
+    {
+        this.selected = selected;
     }
 
     @Override
     public String toString()
     {
         final StringBuilder sb = new StringBuilder("MultichoiceValue{");
-        sb.append("choice=").append(choice);
+        sb.append("selected=").append(selected);
         sb.append('}');
         return sb.toString();
     }

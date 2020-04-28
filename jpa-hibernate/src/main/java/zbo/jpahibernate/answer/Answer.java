@@ -3,8 +3,25 @@ package zbo.jpahibernate.answer;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "answer")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "graph.Answer", attributeNodes = @NamedAttributeNode(value = "value")),
+        @NamedEntityGraph(
+                name = "graph.AnswerMultichoice",
+                attributeNodes = @NamedAttributeNode(value = "value"),
+                subgraphs = {
+                        @NamedSubgraph(
+                                name = "graph.AnswerMultichoice.selected",
+                                attributeNodes = {
+                                        @NamedAttributeNode("selected")
+                                }
+                        )
+                }
+        )
+}
+)
 public class Answer
 {
     @Id

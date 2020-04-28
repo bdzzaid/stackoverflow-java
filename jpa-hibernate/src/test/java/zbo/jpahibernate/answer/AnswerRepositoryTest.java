@@ -1,5 +1,6 @@
 package zbo.jpahibernate.answer;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class AnswerRepositoryTest
@@ -16,27 +16,38 @@ public class AnswerRepositoryTest
     @Autowired
     private AnswerRepository answerRepository;
 
-    @Test
+    @BeforeEach
     @Transactional
-    void findAll()
+    void insert()
     {
-
-        Set<MultichoiceOptionSelected> choice = new HashSet<>();
-        choice.add(new MultichoiceOptionSelected());
-        choice.add(new MultichoiceOptionSelected());
-
         Answer answer = new Answer();
-        answer.setValue(new MultichoiceValue(choice));
-        answerRepository.save(answer);
-
+        if (answerRepository.count() > 0)
+        {
+            Set<MultichoiceOptionSelected> choice = new HashSet<>();
+            choice.add(new MultichoiceOptionSelected());
+            choice.add(new MultichoiceOptionSelected());
+            answer.setValue(new MultichoiceValue(choice));
+            answerRepository.save(answer);
+        }
         answer = new Answer();
         answer.setValue(new RatingValue(1));
         answerRepository.save(answer);
         answer = new Answer();
         answer.setValue(new TextValue("hello"));
         answerRepository.save(answer);
-
-        System.out.println( answerRepository.findAllByGraph());
-
     }
+
+    @Test
+    void findAll()
+    {
+        System.out.println( answerRepository.findAllByGraph());
+    }
+
+    @Test
+    @Transactional
+    void findAllAgain()
+    {
+        System.out.println(answerRepository.findAllByGraph());
+    }
+
 }

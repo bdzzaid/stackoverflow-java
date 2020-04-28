@@ -13,7 +13,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Integer>
 {
 
     @Query("SELECT a FROM Answer a")
-    @EntityGraph(attributePaths = {"value"})
-    public List<Answer> findAllByGraph();
+    @EntityGraph(attributePaths = {"value"}, type = EntityGraph.EntityGraphType.LOAD)
+    List<Answer> findAllByGraph();
 
 }
