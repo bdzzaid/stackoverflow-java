@@ -1,11 +1,11 @@
 package zbo.jpahibernate.answer;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "answer_rating")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-
 public class RatingValue extends Value
 {
 

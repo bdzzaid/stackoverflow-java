@@ -4,7 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +17,8 @@ public class AnswerRepositoryTest
 {
     @Autowired
     private AnswerRepository answerRepository;
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @BeforeEach
     @Transactional
@@ -48,6 +52,14 @@ public class AnswerRepositoryTest
     void findAllAgain()
     {
         System.out.println(answerRepository.findAllByGraph());
+    }
+
+    @Test
+    void retry()
+    {
+        TransactionTemplate template = new TransactionTemplate(transactionManager);
+        template.executeWithoutResult(s -> insert());
+        template.executeWithoutResult(s -> System.out.println(answerRepository.findAllByGraph()));
     }
 
 }

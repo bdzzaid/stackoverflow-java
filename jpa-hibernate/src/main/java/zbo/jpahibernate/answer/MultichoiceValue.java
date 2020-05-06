@@ -6,7 +6,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "answer_multichoice")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class MultichoiceValue extends Value
 {
     public MultichoiceValue() {}

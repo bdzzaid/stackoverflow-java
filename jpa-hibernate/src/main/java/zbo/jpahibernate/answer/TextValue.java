@@ -1,10 +1,11 @@
 package zbo.jpahibernate.answer;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "answer_multichoice")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class TextValue extends Value
 {
     @Column
