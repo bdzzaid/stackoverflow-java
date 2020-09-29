@@ -4,5 +4,5 @@ pluginManagement {
 	}
 }
 rootProject.name = 'stackoverflow-java'
-include 'jpa-hibernate'
+include 'springboot'
 
