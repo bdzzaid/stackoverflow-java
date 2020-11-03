@@ -6,3 +6,5 @@ pluginManagement {
 rootProject.name = 'stackoverflow-java'
 include 'springboot'
 include 'tools'
+include 'hadoop-cloudera'
+

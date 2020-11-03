@@ -1,0 +1,12 @@
+version: '3.1'
+services:
+  stackoverflow-hadoop:
+    image: cloudera/quickstart
+    command: /usr/bin/docker-quickstart
+    hostname: quickstart.cloudera
+    privileged: true
+    ports:
+      - 8888:8888
+    #volumes:
+    #  - ~/IdeaProjects/deltaservices/docker/mysql-conf/conf.d:/etc/mysql/conf.d
+    #  - ~/dockervolumes/mysql/reseaudelta:/var/lib/mysql
